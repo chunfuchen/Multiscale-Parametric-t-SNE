@@ -136,6 +136,8 @@ class ParametricTSNE(BaseEstimator, TransformerMixin):
         
         if self.batch_size is None:
             self.batch_size = X.shape[0]
+        elif self.batch_size > X.shape[0]:
+            self.batch_size = X.shape[0]
         else:
             # HACK! REDUCE 'X' TO MAKE IT MULTIPLE OF BATCH_SIZE!
             m = X.shape[0] % self.batch_size
