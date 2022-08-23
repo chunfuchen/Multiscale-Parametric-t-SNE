@@ -267,10 +267,10 @@ class ParametricTSNE(BaseEstimator, TransformerMixin):
 
     def _kl_divergence(self, P, Y):
         sum_Y = K.sum(K.square(Y), axis=1)
-        eps = K.variable(1e-15)
+        eps = K.constant(1e-15)
         D = sum_Y + K.reshape(sum_Y, [-1, 1]) - 2 * K.dot(Y, K.transpose(Y))
         Q = K.pow(1 + D / self.alpha, -(self.alpha + 1) / 2)
-        Q *= K.variable(1 - np.eye(self.batch_size))
+        Q *= K.constant(1 - np.eye(self.batch_size))
         Q /= K.sum(Q)
         Q = K.maximum(Q, eps)
         C = K.log((P + eps) / (Q + eps))
